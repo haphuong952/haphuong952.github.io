@@ -34,6 +34,11 @@
     attribution: 'Tiles © Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community'
   }).addTo(map);
 
+  // Thêm search box
+L.Control.geocoder({
+  defaultMarkGeocode: true
+}).addTo(map);
+
   // Thêm 1 marker (ví dụ tại Hà Nội)
   var marker = L.marker([20.989438655225356, 105.79566782446942]).addTo(map);
   marker.bindPopup("<b>HANU</b><br>Trường Đại học Hà Nội").openPopup();
