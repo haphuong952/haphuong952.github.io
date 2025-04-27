@@ -53,6 +53,33 @@
     attribution: '© OpenStreetMap contributors'
   });
 
+  <title>Hồ Bao Linh WebGIS</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+
+<div id="map" style="width: 100%; height: 100vh;"></div>
+
+<script>
+  // Tạo bản đồ OSM
+  var map = L.map('map').setView([16.0471, 108.2068], 8); // Tọa độ của Việt Nam hoặc Hồ Bao Linh
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '© OpenStreetMap'
+  }).addTo(map);
+
+  // Load file GeoJSON
+  fetch('Ho Bao Linh JSON.geojson')  // Đảm bảo tên file đúng
+    .then(response => response.json())
+    .then(data => {
+      L.geoJSON(data).addTo(map);
+    });
+
   // Thêm mặc định là Google Hybrid
   googleHybrid.addTo(map);
 
