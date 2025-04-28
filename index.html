@@ -80,6 +80,68 @@
       L.geoJSON(data).addTo(map);
     });
 
+  <title>Population Density Map - Bac Quang, Ha Giang</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <style>
+    #map {
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<script>
+var map = L.map('map').setView([22.7, 104.8], 10); // Bắc Quang, Hà Giang
+
+// Add OpenStreetMap basemap
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© OpenStreetMap contributors'
+}).addTo(map);
+
+// Function to get color based on population density
+function getColor(d) {
+  return d > 400 ? '#800026' :
+         d > 300 ? '#BD0026' :
+         d > 200 ? '#E31A1C' :
+         d > 100 ? '#FC4E2A' :
+         d > 50  ? '#FD8D3C' :
+                   '#FEB24C';
+}
+
+// Style function
+function style(feature) {
+  return {
+    fillColor: getColor(feature.properties.Pop_Density),
+    weight: 1,
+    opacity: 1,
+    color: 'white',
+    dashArray: '3',
+    fillOpacity: 0.7
+  };
+}
+
+// Load GeoJSON layer
+fetch('bacquang_hagiang.geojson')
+  .then(response => response.json())
+  .then(data => {
+    L.geoJSON(data, {
+      style: style,
+      onEachFeature: function (feature, layer) {
+        layer.bindPopup(
+          "<b>Xã/Phường: </b>" + feature.properties.NAME_3 + "<br>" +
+          "<b>Mật độ dân số: </b>" + feature.properties.Pop_Density + " người/km²"
+        );
+      }
+    }).addTo(map);
+  });
+
   // Thêm mặc định là Google Hybrid
   googleHybrid.addTo(map);
 
