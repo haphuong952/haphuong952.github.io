@@ -142,6 +142,28 @@ fetch('bacquang_hagiang.geojson')
     }).addTo(map);
   });
 
+  // Hàm xác định màu theo mật độ dân số
+function getColor(d) {
+  return d > 280 ? '#800026' :
+         d > 156 ? '#BD0026' :
+         d > 109 ? '#E31A1C' :
+         d > 67  ? '#FC4E2A' :
+         d > 45  ? '#FD8D3C' :
+                   '#FEB24C';
+}
+
+// Hàm style từng xã
+function style(feature) {
+  return {
+    fillColor: getColor(feature.properties.Pop_Density),
+    weight: 1,
+    opacity: 1,
+    color: 'white',
+    dashArray: '3',
+    fillOpacity: 0.7
+  };
+}
+
   // Thêm mặc định là Google Hybrid
   googleHybrid.addTo(map);
 
